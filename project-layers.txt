@@ -1,0 +1,32 @@
+Layers:
+
+1 (Rearmost):
+    Container for holding the Weather image
+
+2:
+    Weather image
+    
+3:
+    Transparent container for holding scheduling grid
+    
+4:
+    Scheduling grid
+
+5:
+    Object Layer(Pressable and non-Pressable)
+
+6:
+
+
+<div class="rearmost">
+    <div class="header">
+        <div class="icon">
+        </div>
+        <div class="
+    </div>
+    <div class="scroll">
+        
+    </div>
+</div>
+
+
