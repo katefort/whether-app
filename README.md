@@ -31,7 +31,7 @@ Images of app?
 ## Authors
 
 * **Amelia Castilla** - [github.com/AccraZed](https://github.com/AccraZed)
-* **Layne Hoeschling** - [github.com/layyne](https://github.com/layyne)
+* **Layne Hoelscher** - [github.com/layyne](https://github.com/layyne)
 * **Kate Fort** - [github.com/katefort](https://github.com/katefort)
 * **Justice Smith** - [github.com/jcode94](https://github.com/jcode94)
 
