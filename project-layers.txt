@@ -20,11 +20,22 @@ Layers:
 
 <div class="rearmost">
     <div class="header">
-        <div class="icon">
+        <div class="icon.container">
         </div>
-        <div class="
+        <div class="today-button-container">
+        </div>
+        <div class="tomorrow-button-container">
+        </div>
+        <div class="day-after-next-button-container">
+        </div>
+        <div class="hamburger-menu0container">
+        </div>
     </div>
     <div class="scroll">
+        <div class="scheduling-grid">
+            <div class="objects">
+            </div>
+        </div>
         
     </div>
 </div>
