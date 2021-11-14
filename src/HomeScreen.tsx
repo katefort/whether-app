@@ -115,9 +115,8 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 							min = Math.min(...json["hourly"].slice(0, 24));
 							} */}
 					</View>
-					<View>
-						<CurrentTimePointer></CurrentTimePointer>
-					</View>
+					<CurrentTimePointer side={"top"}></CurrentTimePointer>
+					<CurrentTimePointer side={"bottom"}></CurrentTimePointer>
 				</ScrollView>
 			</View>
 			<Tab navigation={navigation} temp={isLoading ? 0 : temp}></Tab>
@@ -140,21 +139,30 @@ function WeatherBit({ alpha }: { alpha: number }) {
 	return (
 		<View
 			style={[
-				{ backgroundColor: "rgba(122,177,255," + alpha + 0.1 + ")" },
+				{ backgroundColor: "rgba(122,177,255," + alpha + ")" },
 				hStyles.weatherBitContainer,
 			]}
 		/>
 	);
 }
 
-function CurrentTimePointer() {
+function CurrentTimePointer({ side }: { side: string }) {
 	let now = new Date(Date.now());
 
 	return (
 		<View
 			style={[
-				{ top: now.getHours() * 60 + now.getMinutes(), zIndex: 2 },
-				hStyles.currentTimePointer,
+				{
+					top:
+						now.getHours() * 60 +
+						now.getMinutes() +
+						(side == "bottom" ? 10 : 0),
+					zIndex: 4,
+					position: "absolute",
+				},
+				side == "bottom"
+					? hStyles.currentTimePointerBot
+					: hStyles.currentTimePointerTop,
 			]}
 		></View>
 	);
@@ -286,9 +294,26 @@ const hStyles = StyleSheet.create({
 		color: colorSecondary,
 		padding: 10,
 	},
-	currentTimePointer: {
-		backgroundColor: "red",
-		height: 3,
+	currentTimePointerBot: {
+		borderTopColor: "#FF7F11",
+		borderRightColor: "#FF7F11",
+		borderLeftColor: "#FF7F11",
+		borderBottomColor: "transparent",
+		borderWidth: 10,
+		borderTopWidth: 2,
+		height: 5,
+		width: "100%",
+		left: 0,
+		right: 0,
+	},
+	currentTimePointerTop: {
+		borderTopColor: "transparent",
+		borderRightColor: "#FF7F11",
+		borderLeftColor: "#FF7F11",
+		borderBottomColor: "#FF7F11",
+		borderWidth: 10,
+		borderBottomWidth: 2,
+		height: 5,
 		width: "100%",
 		left: 0,
 		right: 0,

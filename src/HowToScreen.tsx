@@ -24,11 +24,11 @@ function HowToScreen({ navigation }: { navigation: any }) {
 				<Text style={hStyles.h2}>{`Who is this app for?`}</Text>
 				{"\n\n"}
 				<Text style={hStyles.bodyText}>
-					Whether is for University of Central Florida students who struggle to
-					time their travel between classes. It overlays weather data with your
+					Whether is an app for University of Central Florida students who want to
+					time their travel between classes and avoid rain. It overlays live weather data with your
 					class schedule to help you better plan for a rain-free commute! This
-					should lead to less-soggy shoes for those walking, and users of
-					wheel-based forms of transportation may benefit from a safer ride.
+					should lead to less-soggy shoes (for those walking), and a smoother ride (for users of
+					wheel-based forms of transportation).
 				</Text>
 				{"\n\n"}
 				<Text style={hStyles.h2}>How do I use Whether?</Text>
