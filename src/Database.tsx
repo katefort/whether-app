@@ -66,7 +66,6 @@ export class Database {
 		};
 
 		let newWeek: Map<string, ScheduleEvent[]> = new Map();
-
 		for (let day_name of Array.from(week.keys())) {
 			if (day_name === day) {
 				continue;
@@ -79,7 +78,7 @@ export class Database {
 		}
 
 		let newEvents = week.get(day);
-		if (newEvents) {
+		if (newEvents != undefined) {
 			newEvents.push(newEvent);
 			newWeek.set(day, newEvents);
 
@@ -87,6 +86,8 @@ export class Database {
 			this.setWeek(newWeek);
 			// Replace DB entry for day with new event list
 			this.storeDay(day, newEvents);
+		} else {
+			console.log("newEvents is undefined!");
 		}
 	}
 
@@ -105,11 +106,15 @@ export class Database {
 		}
 
 		let newEvents = week.get(day);
-		if (newEvents) {
-			const index = newEvents.map((event) => event.name).indexOf(day);
+		if (newEvents != undefined) {
+			const index = newEvents.map((event) => event.name).indexOf(name);
 			if (index > -1) {
 				newEvents.splice(index, 1);
 			}
+
+			console.log(newEvents);
+
+			newWeek.set(day, newEvents);
 
 			// Update state in App
 			this.setWeek(newWeek);
@@ -119,16 +124,20 @@ export class Database {
 	}
 
 	storeDay(day_name: string, events: ScheduleEvent[]) {
-		if (events.length == 0) {
-			alert("Add some events first!");
-			return;
-		}
-
+		// if (events.length == 0) {
+		// 	alert("Add some events first!");
+		// 	return;
+		// }
 		this.db.transaction((tx) => {
 			tx.executeSql(
-				"insert or replace into schedules (id, day_name, events_list) values\
-                    (select id from schedules where day_name = ?), ?, ?);",
-				[day_name, day_name, JSON.stringify(events)]
+				"INSERT or REPLACE into schedules (id, day_name, events_list) values ((select id from schedules where day_name = ?), ?, ?);",
+				[day_name, day_name, JSON.stringify(events)],
+				(tx, result) => {
+					console.log(JSON.stringify(result));
+				},
+				(tx, e) => {
+					console.log(e);
+				}
 			);
 
 			// Debug print
