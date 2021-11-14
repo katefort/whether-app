@@ -1,6 +1,6 @@
 # Whether
-In order to reflect the 'Zen' theme for KnightHacks 2021, our team wanted to create a tool to ease the mental burden taken on by students every semester.
-Especially in Florida, weather is a scheduling factor that can make or break your schedule.
+In order to reflect the 'Zen' theme of KnightHacks 2021, our team wanted to create a tool to ease the mental burden taken on by students every semester.
+Especially in Florida, weather is a scheduling factor that can make or break your day.
 No one likes showing up to appointments wet, and even the best umbrella can only do so much.
 
 By merging the functionality of a scheduler and live weather, students should be able to better plan their commutes, ensuring a dry arrival.
@@ -9,19 +9,10 @@ By merging the functionality of a scheduler and live weather, students should be
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
-
-The things you'll need in order to use the app and how to install them
-
-```
-Give examples
-```
 
 ### How to use
 
-A step-by-step guide on how to use the app's features
-
-Images of app?
+In the final implmentation, users can enter their schedule
 
 ## Built with
 
