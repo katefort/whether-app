@@ -53,7 +53,7 @@ function ScheduleScreen({
 					>
 						<Ionicons
 							name="add-circle"
-							size={32}
+							size={20}
 							color={colorTertiary}
 						></Ionicons>
 					</Pressable>
@@ -113,7 +113,7 @@ function Event({
 				style={{ flex: 1, alignItems: "center" }}
 				onPress={() => db.removeEvent(week, day, e.name)}
 			>
-				<Ionicons name="remove-circle" size={36} color={"red"} />
+				<Ionicons name="remove-circle" size={28} color={"red"} />
 			</Pressable>
 		</View>
 	);

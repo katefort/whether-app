@@ -114,7 +114,6 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 							.get("monday")!
 							min = Math.min(...json["hourly"].slice(0, 24));
 							} */}
-
 					</View>
 					<View>
 						<CurrentTimePointer></CurrentTimePointer>
@@ -135,26 +134,28 @@ function CommuteBlock({
 	e: ScheduleEvent;
 	offset: number;
 	height: number;
-}) {
-
-}
+}) {}
 
 function WeatherBit({ alpha }: { alpha: number }) {
 	return (
 		<View
 			style={[
-				{ backgroundColor: "rgba(144,228,255," + alpha + ")" },
+				{ backgroundColor: "rgba(122,177,255," + alpha + 0.1 + ")" },
 				hStyles.weatherBitContainer,
 			]}
 		/>
 	);
 }
+
 function CurrentTimePointer() {
 	let now = new Date(Date.now());
-	
+
 	return (
 		<View
-			style={[{ top: now.getHours() * 60 + now.getMinutes(), zIndex: 2 }, hStyles.currentTimePointer]}
+			style={[
+				{ top: now.getHours() * 60 + now.getMinutes(), zIndex: 2 },
+				hStyles.currentTimePointer,
+			]}
 		></View>
 	);
 }
@@ -259,6 +260,7 @@ function Tab({ navigation, temp }: { navigation: any; temp: number }) {
 
 const hStyles = StyleSheet.create({
 	homeScreen: {
+		backgroundColor: "#d3fcff",
 		flex: 1,
 	},
 	body: {

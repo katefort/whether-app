@@ -52,7 +52,7 @@ function HowToScreen({ navigation }: { navigation: any }) {
 }
 
 const hStyles = StyleSheet.create({
-	h1: {e
+	h1: {
 		fontSize: 32,
 		textAlign: "center",
 		color: colorSecondary,
