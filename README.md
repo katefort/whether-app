@@ -1,6 +1,6 @@
 # Whether
 
-In order to reflect the 'Zen' theme of KnightHacks 2021, our team wanted to help ease the minds of students commuting between classes. When it comes to scheduling, most apps on the market don't account for precipitation. We're 
+In order to reflect the 'Zen' theme of KnightHacks 2021, our team wanted to help ease the minds of students commuting between classes. When it comes to scheduling, most apps on the market don't account for precipitation.
 
 Avoid moist socks by using Whether to decide when to go!
 
