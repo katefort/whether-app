@@ -33,37 +33,47 @@ function ScheduleScreen({
 	}
 
 	return (
-		<View style={Styles.scheduleScreen}>
-			<Pressable
-				// TODO: Route onPress to new screen that takes user input
-				onPress={() => {
-					route.params.db.addEvent(
-						route.params.week,
-						"friday",
-						"CS2",
-						"CLASSROOM BUILDING I",
-						new Date(),
-						new Date()
-					);
-				}}
-			>
-				<Ionicons name="add-circle" size={32} color={colorTertiary}></Ionicons>
-			</Pressable>
-			<SectionList
-				sections={days}
-				keyExtractor={({ name, building, start, end }) =>
-					name + building + start + end
-				}
-				renderItem={({ item }) => (
-					<Event e={item} db={route.params.db} week={route.params.week} />
-				)}
-				renderSectionHeader={({ section }) => (
-					<View style={eStyles.sectionHeaderContainer}>
-						<Text style={eStyles.sectionHeaderText}>{section.title}</Text>
-					</View>
-				)}
-				stickySectionHeadersEnabled
-			/>
+		<View style={eStyles.scheduleScreen}>
+			<View style={{ position: "relative" }}>
+				<View style={eStyles.headerContainer}>
+					<View style={{ width: 36 }}></View>
+					<Text style={eStyles.menuHeader}>Schedule</Text>
+					<Pressable
+						// TODO: Route onPress to new screen that takes user input
+						onPress={() => {
+							route.params.db.addEvent(
+								route.params.week,
+								"friday",
+								"CS2",
+								"CLASSROOM BUILDING I",
+								new Date(),
+								new Date()
+							);
+						}}
+					>
+						<Ionicons
+							name="add-circle"
+							size={32}
+							color={colorTertiary}
+						></Ionicons>
+					</Pressable>
+				</View>
+				<SectionList
+					sections={days}
+					keyExtractor={({ name, building, start, end }) =>
+						name + building + start + end
+					}
+					renderItem={({ item }) => (
+						<Event e={item} db={route.params.db} week={route.params.week} />
+					)}
+					renderSectionHeader={({ section }) => (
+						<View style={eStyles.sectionHeaderContainer}>
+							<Text style={eStyles.sectionHeaderText}>{section.title}</Text>
+						</View>
+					)}
+					stickySectionHeadersEnabled
+				/>
+			</View>
 		</View>
 	);
 }
@@ -91,55 +101,80 @@ function Event({
 
 	return (
 		<View style={eStyles.eventContainer}>
-			<View style={eStyles.eventHeaderContainer}>
+			<View style={eStyles.eventText}>
 				<Text style={eStyles.eventName}>{e.name}</Text>
-				<Pressable onPress={() => db.removeEvent(week, day, e.name)}>
-					<Entypo name="minus" size={48} color={"red"} />
-				</Pressable>
+				<Text style={eStyles.eventBldg}>{e.building}</Text>
+				<Text style={eStyles.eventStart}>
+					{e.start.getHours()}:{e.start.getMinutes()} - {e.end.getHours()}:
+					{e.end.getMinutes()}
+				</Text>
 			</View>
-			<Text style={eStyles.eventBldg}>{e.building}</Text>
-			<Text style={eStyles.eventStart}>
-				{e.start.getHours()}:{e.start.getMinutes()} - {e.end.getHours()}:
-				{e.end.getMinutes()}
-			</Text>
+			<Pressable
+				style={{ flex: 1, alignItems: "center" }}
+				onPress={() => db.removeEvent(week, day, e.name)}
+			>
+				<Ionicons name="remove-circle" size={36} color={"red"} />
+			</Pressable>
 		</View>
 	);
 }
 
 const eStyles = StyleSheet.create({
-	sectionHeaderContainer: {
+	scheduleScreen: {
+		width: "100%",
+		height: "100%",
+		alignItems: "center",
 		backgroundColor: colorPrimary,
-	},
-	sectionHeaderText: {
-		fontSize: 32,
-		color: colorSecondary,
-		textTransform: "capitalize",
-		textAlign: "center",
 		padding: "5%",
 	},
-	eventContainer: {
-		position: "relative",
-		borderRadius: defaultRadius,
-		backgroundColor: colorTertiary,
-		paddingTop: "2%",
-		padding: "6%",
-		marginBottom: "10%",
-	},
-	eventHeaderContainer: {
+	headerContainer: {
+		paddingTop: 24,
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
+	menuHeader: {
+		fontSize: 32,
+		color: colorSecondary,
+	},
+	//
+	sectionHeaderContainer: {
+		backgroundColor: colorPrimary,
+	},
+	// Monday, Wednesday, etc.
+	sectionHeaderText: {
+		fontSize: 32,
+		color: colorSecondary,
+		textTransform: "capitalize",
+		textAlign: "left",
+		padding: "4%",
+	},
+	eventText: {
+		flex: 2,
+	},
+	eventContainer: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-around",
+
+		width: "100%",
+		padding: "4%",
+
+		borderRadius: defaultRadius,
+		backgroundColor: colorTertiary,
+		marginBottom: "10%",
+	},
 	eventName: {
-		textAlign: "center",
 		fontSize: 24,
 	},
 	eventBldg: {
 		textTransform: "capitalize",
-		fontSize: 15,
+		fontSize: 18,
 	},
-	eventStart: {},
+	eventStart: {
+	fontSize: 18 },
 	eventEnd: {},
 });
 

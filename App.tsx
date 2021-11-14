@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-native-paper";
 import { openDatabase, Database } from "./src/Database";
 import { theme, colorSecondary, ScheduleEvent } from "./src/Constants";
-
 import HomeScreen from "./src/HomeScreen";
 import ScheduleScreen from "./src/ScheduleScreen";
 import HowToScreen from "./src/HowToScreen";
@@ -92,8 +91,9 @@ export default function App() {
 				"create table if not exists schedules (id integer primary key not null, day_name text, events_list text);"
 			);
 		});
-		db.getEventsForWeek();
+		// db.getEventsForWeek();
 		setWeek(newWeek);
+		console.log(week);
 	}, []);
 
 	return (

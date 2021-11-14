@@ -6,19 +6,24 @@ import {
 	Linking,
 	ActivityIndicator,
 	StyleSheet,
-	FlatList,
+	ScrollView,
 } from "react-native";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import { Menu, Button, Divider } from "react-native-paper";
-import { colorPrimary, colorSecondary, defaultRadius } from "./Constants";
+import {
+	colorPrimary,
+	colorSecondary,
+	defaultRadius,
+	ScheduleEvent,
+} from "./Constants";
 import Styles from "./Styles";
 import sample from "../sampleCall";
 
 const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 	const [isLoading, setLoading] = useState(true);
-	const [data, setData] = useState([0]);
+	const [weatherData, setWeatherData] = useState([0]);
 	const [temp, setTemp] = useState(0);
-	let { week } = route.params;
+	let { week }: { week: Map<string, ScheduleEvent[]> } = route.params;
 
 	// TODO: Remove this todo
 	// TODO: Update to "One Call" API
@@ -46,12 +51,21 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 
 			let fifteenly: number[] = [];
 
-			for (let hour of hourly) {
-				for (let i = 0; i < 4; i++) {
-					fifteenly.push(255 * hour["pop"]);
+			for (let i = 0; i < hourly.length; i++) {
+				if (i > 0 && i < hourly.length - 1) {
+					// Do funny averaging
+					fifteenly.push((2 * hourly[i - 1]["pop"] + hourly[i]["pop"]) / 2);
+					fifteenly.push((hourly[i - 1]["pop"] + 2 * hourly[i]["pop"]) / 3);
+					fifteenly.push((hourly[i + 1]["pop"] + 2 * hourly[i]["pop"]) / 3);
+					fifteenly.push((2 * hourly[i + 1]["pop"] + hourly[i]["pop"]) / 2);
+				} else {
+					// Don't do funny averaging (only at ends)
+					for (let j = 0; j < 4; j++) {
+						fifteenly.push(hourly[i]["pop"]);
+					}
 				}
 			}
-			setData(fifteenly);
+			setWeatherData(fifteenly);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -59,23 +73,35 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 		}
 	};
 
-	let weatherData;
 	useEffect(() => {
 		getWeatherData();
 	}, []);
 
-	const renderItem = ({ item }: { item: number }) => (
-		<WeatherBit alpha={item} />
-	);
-
 	return (
 		<View style={hStyles.homeScreen}>
 			<View style={hStyles.body}>
-				<FlatList
-					data={data}
-					renderItem={renderItem}
-					keyExtractor={(item, index) => "" + item + index}
-				/>
+				<ScrollView>
+					<View>
+						{week
+							.get("monday")!
+							.map((event: ScheduleEvent, i: number, arr: ScheduleEvent[]) => {
+								let offset =
+									event.start.getHours() * 60 + event.start.getMinutes();
+								let height =
+									3 *
+									(event.end.getMinutes() -
+										event.start.getMinutes() +
+										60 * (event.end.getHours() - event.start.getHours()));
+
+								return <Block e={event} offset={10} height={height}></Block>;
+							})}
+					</View>
+					<View>
+						{weatherData.map((value: number, i: number, arr: number[]) => {
+							return <WeatherBit alpha={value} key={i} />;
+						})}
+					</View>
+				</ScrollView>
 			</View>
 			<Tab navigation={navigation} temp={isLoading ? 0 : temp}></Tab>
 			<StatusBar style="auto" />
@@ -94,6 +120,28 @@ function WeatherBit({ alpha }: { alpha: number }) {
 	);
 }
 
+function Block({
+	e,
+	offset,
+	height,
+}: {
+	e: ScheduleEvent;
+	offset: number;
+	height: number;
+}) {
+	console.log(e);
+
+	return (
+		<View style={[hStyles.block, { top: offset }]}>
+			<Text>bonk{e.name}</Text>
+			<Text>{e.building}</Text>
+			<Text>
+				{e.start.getHours()}:{e.start.getMinutes()}-{e.end.getHours()}:
+				{e.end.getMinutes()}
+			</Text>
+		</View>
+	);
+}
 function Tab({ navigation, temp }: { navigation: any; temp: number }) {
 	const [menuVisible, setMenuVisible] = useState(false);
 
@@ -151,16 +199,22 @@ function Tab({ navigation, temp }: { navigation: any; temp: number }) {
 
 const hStyles = StyleSheet.create({
 	homeScreen: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		flex: 1,
+	},
+	body: {
+		position: "relative",
+		flex: 9,
+	},
+	tabContainer: {
+		flex: 1,
+		paddingLeft: "5%",
+		backgroundColor: colorPrimary,
 	},
 	weatherBitContainer: {
 		width: "100%",
-		height: 10,
+		height: 45,
 	},
 	tempContainer: {
-		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 	},
@@ -168,30 +222,13 @@ const hStyles = StyleSheet.create({
 		fontSize: 18,
 		color: colorSecondary,
 		padding: 10,
-		textAlignVertical: "bottom",
 	},
-	body: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "center",
-
-		position: "relative",
+	block: {
+		position: "absolute",
+		zIndex: 1,
 		width: "100%",
-		height: "90%",
-
-		backgroundColor: "white",
-		color: "#684655",
-	},
-	tabContainer: {
-		position: "relative",
-		justifyContent: "center",
-
-		width: "100%",
-		height: "10%",
-		paddingLeft: "5%",
-		paddingRight: "2%",
 		backgroundColor: colorPrimary,
+		color: "black",
 	},
 	tabIcons: {
 		display: "flex",
@@ -199,7 +236,9 @@ const hStyles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "space-between",
 	},
-	menuIcon: {},
+	menuIcon: {
+		padding: "0%",
+	},
 	menuPopout: {
 		justifyContent: "space-between",
 
