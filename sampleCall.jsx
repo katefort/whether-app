@@ -302,7 +302,7 @@ export default sample = {
 					icon: "02d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636909200,
@@ -325,7 +325,7 @@ export default sample = {
 					icon: "02d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636912800,
@@ -348,7 +348,7 @@ export default sample = {
 					icon: "03d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636916400,
@@ -371,7 +371,7 @@ export default sample = {
 					icon: "04d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636920000,
@@ -394,7 +394,7 @@ export default sample = {
 					icon: "04d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636923600,
@@ -417,7 +417,7 @@ export default sample = {
 					icon: "04d",
 				},
 			],
-			pop: 0,
+			pop: 0.5,
 		},
 		{
 			dt: 1636927200,

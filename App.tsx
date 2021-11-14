@@ -12,27 +12,27 @@ let sqlDB = openDatabase();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-	let [week, setWeek] = useState<Map<string, ScheduleEvent[]>>(
-		new Map([
-			["monday", []],
-			["tuesday", []],
-			["wednesday", []],
-			["thursday", []],
-			["friday", []],
-			["saturday", []],
-			["sunday", []],
-		])
-	);
+	// let [week, setWeek] = useState<Map<string, ScheduleEvent[]>>(
+	// 	new Map([
+	// 		["monday", []],
+	// 		["tuesday", []],
+	// 		["wednesday", []],
+	// 		["thursday", []],
+	// 		["friday", []],
+	// 		["saturday", []],
+	// 		["sunday", []],
+	// 	])
+	// );
 
-	let newWeek: Map<string, ScheduleEvent[]> = new Map([
-		["monday", []],
-		["tuesday", []],
-		["wednesday", []],
-		["thursday", []],
-		["friday", []],
-		["saturday", []],
-		["sunday", []],
-	]);
+	// let newWeek: Map<string, ScheduleEvent[]> = new Map([
+	// 	["monday", []],
+	// 	["tuesday", []],
+	// 	["wednesday", []],
+	// 	["thursday", []],
+	// 	["friday", []],
+	// 	["saturday", []],
+	// 	["sunday", []],
+	// ]);
 
 	// START DEMO MATERIAL
 	let cs2: ScheduleEvent = {
@@ -76,11 +76,19 @@ export default function App() {
 		start: new Date(1, 1, 1, 18, 0),
 		end: new Date(1, 1, 1, 19, 0),
 	};
-	// END DEMO MATERIAL
 
-	newWeek.set("monday", [cs2, bio2, sysSoft]);
-	newWeek.set("wednesday", [cs2, bio2, bioLabs, sysSoft]);
-	newWeek.set("friday", [bio2, cs2Labs, phiClub]);
+	let [week, setWeek] = useState<Map<string, ScheduleEvent[]>>(
+		new Map([
+			["monday", [cs2, bio2, sysSoft]],
+			["tuesday", []],
+			["wednesday", [cs2, bio2, bioLabs, sysSoft]],
+			["thursday", []],
+			["friday", [bio2, cs2Labs, phiClub]],
+			["saturday", []],
+			["sunday", []],
+		])
+	);
+	// END DEMO MATERIAL
 
 	let db = new Database(sqlDB, setWeek);
 
@@ -92,7 +100,7 @@ export default function App() {
 			);
 		});
 		// db.getEventsForWeek();
-		setWeek(newWeek);
+		// setWeek(newWeek);
 		console.log(week);
 	}, []);
 

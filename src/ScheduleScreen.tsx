@@ -138,7 +138,6 @@ const eStyles = StyleSheet.create({
 		fontSize: 32,
 		color: colorSecondary,
 	},
-	//
 	sectionHeaderContainer: {
 		backgroundColor: colorPrimary,
 	},
@@ -151,14 +150,14 @@ const eStyles = StyleSheet.create({
 		padding: "4%",
 	},
 	eventText: {
-		flex: 2,
+		flex: 4,
 	},
 	eventContainer: {
 		display: "flex",
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-around",
-
+		zIndex: 2, 
 		width: "100%",
 		padding: "4%",
 
@@ -174,7 +173,8 @@ const eStyles = StyleSheet.create({
 		fontSize: 18,
 	},
 	eventStart: {
-	fontSize: 18 },
+		fontSize: 18 
+	},
 	eventEnd: {},
 });
 

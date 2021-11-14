@@ -42,7 +42,7 @@ function HowToScreen({ navigation }: { navigation: any }) {
 				{"\n\n"}
 				<Text style={hStyles.bodyText}>
 					The time range that you can leave so you can get to class in time is
-					shown in light green. The best travel times are shown in darker green.
+					shown in light green. The best travel time are shown in darker green.
 					(These are times that Whether determines are the least likely to have
 					rain!)
 				</Text>
@@ -52,14 +52,14 @@ function HowToScreen({ navigation }: { navigation: any }) {
 }
 
 const hStyles = StyleSheet.create({
-	h1: {
-		fontSize: 30,
+	h1: {e
+		fontSize: 32,
 		textAlign: "center",
 		color: colorSecondary,
 		textAlignVertical: "bottom",
 	},
 	h2: {
-		fontSize: 24,
+		fontSize: 26,
 		textAlign: "center",
 		color: colorSecondary,
 	},

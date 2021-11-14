@@ -43,7 +43,7 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 			// const json = await response.json();
 			// setData(json);
 			const json = sample;
-			let hourly = json["hourly"];
+			let hourly = json["hourly"].slice(0, 24);
 
 			let curTemp = hourly[0]["temp"];
 			curTemp = Math.round((curTemp - 273) * 1.8 + 32);
@@ -81,25 +81,43 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 		<View style={hStyles.homeScreen}>
 			<View style={hStyles.body}>
 				<ScrollView>
-					<View>
+					<View style={{ alignSelf: "center", left: "-40%", zIndex: 1 }}>
 						{week
 							.get("monday")!
 							.map((event: ScheduleEvent, i: number, arr: ScheduleEvent[]) => {
 								let offset =
 									event.start.getHours() * 60 + event.start.getMinutes();
 								let height =
-									3 *
-									(event.end.getMinutes() -
-										event.start.getMinutes() +
-										60 * (event.end.getHours() - event.start.getHours()));
+									event.end.getMinutes() -
+									event.start.getMinutes() +
+									60 * (event.end.getHours() - event.start.getHours());
 
-								return <Block e={event} offset={10} height={height}></Block>;
+								return (
+									<Block
+										e={event}
+										offset={offset}
+										height={height}
+										key={i}
+									></Block>
+								);
 							})}
 					</View>
 					<View>
 						{weatherData.map((value: number, i: number, arr: number[]) => {
 							return <WeatherBit alpha={value} key={i} />;
 						})}
+					</View>
+					<View>
+						{/* // create a block using weather data & classes 
+						// make block from end of last class to 15 minutes before next class */}
+						{/* {week.
+							.get("monday")!
+							min = Math.min(...json["hourly"].slice(0, 24));
+							} */}
+
+					</View>
+					<View>
+						<CurrentTimePointer></CurrentTimePointer>
 					</View>
 				</ScrollView>
 			</View>
@@ -109,6 +127,18 @@ const HomeScreen = ({ route, navigation }: { route: any; navigation: any }) => {
 	);
 };
 
+function CommuteBlock({
+	e,
+	offset,
+	height,
+}: {
+	e: ScheduleEvent;
+	offset: number;
+	height: number;
+}) {
+
+}
+
 function WeatherBit({ alpha }: { alpha: number }) {
 	return (
 		<View
@@ -117,6 +147,15 @@ function WeatherBit({ alpha }: { alpha: number }) {
 				hStyles.weatherBitContainer,
 			]}
 		/>
+	);
+}
+function CurrentTimePointer() {
+	let now = new Date(Date.now());
+	
+	return (
+		<View
+			style={[{ top: now.getHours() * 60 + now.getMinutes(), zIndex: 2 }, hStyles.currentTimePointer]}
+		></View>
 	);
 }
 
@@ -129,19 +168,40 @@ function Block({
 	offset: number;
 	height: number;
 }) {
-	console.log(e);
-
 	return (
-		<View style={[hStyles.block, { top: offset }]}>
-			<Text>bonk{e.name}</Text>
-			<Text>{e.building}</Text>
-			<Text>
+		<View style={[hStyles.block, { top: offset, height: height }]}>
+			<Text
+				style={{
+					color: "white",
+					fontSize: 14,
+					textAlign: "center",
+				}}
+			>
+				{e.name}
+			</Text>
+			<Text
+				style={{
+					color: "white",
+					fontSize: 14,
+					textAlign: "center",
+				}}
+			>
+				{e.building}
+			</Text>
+			<Text
+				style={{
+					color: "white",
+					fontSize: 14,
+					textAlign: "center",
+				}}
+			>
 				{e.start.getHours()}:{e.start.getMinutes()}-{e.end.getHours()}:
 				{e.end.getMinutes()}
 			</Text>
 		</View>
 	);
 }
+
 function Tab({ navigation, temp }: { navigation: any; temp: number }) {
 	const [menuVisible, setMenuVisible] = useState(false);
 
@@ -206,13 +266,14 @@ const hStyles = StyleSheet.create({
 		flex: 9,
 	},
 	tabContainer: {
+		height: "10%",
 		flex: 1,
 		paddingLeft: "5%",
 		backgroundColor: colorPrimary,
 	},
 	weatherBitContainer: {
 		width: "100%",
-		height: 45,
+		height: 15,
 	},
 	tempContainer: {
 		flexDirection: "row",
@@ -223,12 +284,22 @@ const hStyles = StyleSheet.create({
 		color: colorSecondary,
 		padding: 10,
 	},
+	currentTimePointer: {
+		backgroundColor: "red",
+		height: 3,
+		width: "100%",
+		left: 0,
+		right: 0,
+	},
 	block: {
+		display: "flex",
+		borderRadius: defaultRadius,
 		position: "absolute",
 		zIndex: 1,
-		width: "100%",
+		justifyContent: "center",
+		width: "80%",
 		backgroundColor: colorPrimary,
-		color: "black",
+		opacity: 0.8,
 	},
 	tabIcons: {
 		display: "flex",
